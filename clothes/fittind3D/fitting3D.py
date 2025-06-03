@@ -10,7 +10,7 @@ HEADERS = {
 def generate_3d_model_from_image(image_url: str, poll_interval: int = 10, timeout: int = 600) -> dict:
     payload = {
         "image_url": image_url,
-        "enable_pbr": True,
+        "enable_pbr": False,
         "should_remesh": True,
         "should_texture": True
     }

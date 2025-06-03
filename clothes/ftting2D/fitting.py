@@ -3,7 +3,7 @@ import time
 import requests
 import base64
  
-class fitting:
+class fitting2D:
     API_KEY = "fa-3sE1CTrqYa4Q-7smRsl4bqJVzNOp9AfBpJMWe"
     BASE_URL = "https://api.fashn.ai/v1"
  

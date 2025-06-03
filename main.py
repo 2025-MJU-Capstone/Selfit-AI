@@ -2,7 +2,7 @@ import os
 import tempfile
 from fastapi import FastAPI, Query
 from pose.poseLandmark import poseLandmark
-from clothes.ftting2D import fitting
+from clothes.ftting2D import fitting 
 from clothes.fittind3D import fitting3D
 
 import requests
@@ -33,9 +33,11 @@ async def analyze_body(gender: str = Query(...), image_url: str = Query(...)):
 
 @app.get("/fitting/3D")
 async def analyze_body(body_image_url: str = Query(...), clothes_image_url: str = Query(...)):
-    image_2d = fitting.run(body_image_url, clothes_image_url)
-    result = fitting3D.generate_3d_model_from_image(image_2d)
-    result["image_2d"] = image_2d
+    fitting_result = fitting.fitting2D.run(body_image_url, clothes_image_url)
+    image_url = fitting_result["result"][0]  # 첫 번째 URL 추출
+
+    result = fitting3D.generate_3d_model_from_image(image_url)
+    result["image_2d"] = image_url
     
     return result
 
