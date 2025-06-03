@@ -33,7 +33,7 @@ class poseLandmark:
 
     @staticmethod
     def analyze_body(gender, image_path):
-        modelPath: Final = '/Users/judohyeon/workspace/Selfit_AI/pose/pose_landmarker_full.task'
+        modelPath: Final = '/Users/user/Documents/Selfit-AI/pose/pose_landmarker_full.task'
         imagePath: Final = image_path
         image = mp.Image.create_from_file(imagePath)
 

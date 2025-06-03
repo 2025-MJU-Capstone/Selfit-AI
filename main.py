@@ -1,5 +1,7 @@
+import os
+import tempfile
 from fastapi import FastAPI, Query
-from pose import poseLandmark
+from pose.poseLandmark import poseLandmark
 from clothes.ftting2D import fitting
 from clothes.fittind3D import fitting3D
 
@@ -12,12 +14,21 @@ app = FastAPI()
 
 @app.get("/body")
 async def analyze_body(gender: str = Query(...), image_url: str = Query(...)):
+   # 1. 이미지 다운로드
     response = requests.get(image_url)
-    image_array = np.asarray(bytearray(response.content), dtype=np.uint8)
-    image = cv2.imdecode(image_array, cv2.IMREAD_COLOR)
-    
-    result = poseLandmark.analyze_body(gender, image)
-    
+
+    # 2. 임시 파일에 저장
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".png") as tmp_file:
+        tmp_file.write(response.content)
+        tmp_file_path = tmp_file.name
+
+    try:
+        # 3. 임시 파일 경로를 넘겨줌
+        result = poseLandmark.analyze_body(gender, tmp_file_path)
+    finally:
+        # 4. 임시 파일 삭제
+        os.remove(tmp_file_path)
+
     return result
 
 @app.get("/fitting/3D")
